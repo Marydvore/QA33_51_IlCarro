@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoginTests extends  TestBase{
@@ -9,5 +10,9 @@ public class LoginTests extends  TestBase{
         app.getHelperUser().openLoginForm();
         app.getHelperUser().fillLoginForm(" iv@iv.com", "Ii123#@&");
         app.getHelperUser().submitLogin();
+
+        Assert.assertEquals(app.getHelperUser().getMessage(), "Logged in success");
+
+        app.getHelperUser().clickOKButton();
     }
 }
