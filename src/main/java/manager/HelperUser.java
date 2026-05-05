@@ -40,4 +40,21 @@ public class HelperUser extends HelperBase {
         pause(2000);
         return wd.findElement(By.cssSelector(".dialog-container>h2")).getText();
     }
+
+
+    public boolean isLogged() {
+        return isElementPresent(By.xpath("//*[text()=' Logout ']"));
+    }
+
+    public void logout() {
+        click(By.xpath("//*[text()=' Logout ']"));
+    }
+
+    public boolean isEmailWithoutAtItsNotLookLikeEmail() {
+        return isElementPresent(By.xpath("//form/div/div"));
+    }
+
+    public boolean isEmailWithoutAtPresentDisabled() {
+        return isElementPresent(By.xpath("//*[@disabled]"));
+    }
 }
