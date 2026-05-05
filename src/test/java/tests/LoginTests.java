@@ -1,5 +1,6 @@
 package tests;
 
+import models.User;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -26,6 +27,20 @@ public class LoginTests extends TestBase {
     }
 
     @Test
+    public void loginSuccess1() {
+        User user= new User().setEmail("iv@iv.com").setPassword("Ii123#@&");
+        //user.setEmail("iv@iv.com");
+        //user.setPassword("Ii123#@&");
+
+        app.getHelperUser().openLoginForm();
+        app.getHelperUser().fillLoginForm(user);
+        app.getHelperUser().submitLogin();
+
+        Assert.assertEquals(app.getHelperUser().getMessage(), "Logged in success");
+
+    }
+
+    @Test
     public void loginSuccessModel() {
         app.getHelperUser().openLoginForm();
         app.getHelperUser().fillLoginForm("iv@iv.com", "Ii123#@&");
@@ -38,8 +53,9 @@ public class LoginTests extends TestBase {
 
     @Test
     public void loginWrongEmail() {
+        User user= new User().setEmail("ivad@iv.com").setPassword("Ii123#@&");
         app.getHelperUser().openLoginForm();
-        app.getHelperUser().fillLoginForm("ivad@iv.com", "Ii123#@&");
+        app.getHelperUser().fillLoginForm(user);
         app.getHelperUser().submitLogin();
 
         Assert.assertEquals(app.getHelperUser().getMessage(), "\"Login or Password incorrect\"");
@@ -47,8 +63,9 @@ public class LoginTests extends TestBase {
 
     @Test
     public void loginWrongEmailWithoutAtItsNotLookLikeEmail() {
+        User user= new User().setEmail("iviv.com").setPassword("Ii123#@&");
         app.getHelperUser().openLoginForm();
-        app.getHelperUser().fillLoginForm("iviv.com", "Ii123#@&");
+        app.getHelperUser().fillLoginForm(user);
 
         Assert.assertTrue(app.getHelperUser().isEmailWithoutAtPresentDisabled());
         Assert.assertTrue(app.getHelperUser().isEmailWithoutAtItsNotLookLikeEmail());
@@ -57,22 +74,11 @@ public class LoginTests extends TestBase {
         app.getHelperUser().submitLogin();
     }
 
-    /*@Test
-    public void loginWrongEmailWithoutAtPresentDisabled() {
-        app.getHelperUser().openLoginForm();
-        app.getHelperUser().fillLoginForm("iviv.com", "Ii123#@&");
-        app.getHelperUser().submitLogin();
-
-        Assert.assertTrue(app.getHelperUser().isEmailWithoutAtPresentDisabled());
-
-        app.getHelperUser().fillLoginForm("iv@iv.com", "Ii123#@&");
-        app.getHelperUser().submitLogin();
-    }*/
-
     @Test
     public void loginWrongPassword() {
+        User user= new User().setEmail("iv@iv.com").setPassword("Ii12");
         app.getHelperUser().openLoginForm();
-        app.getHelperUser().fillLoginForm("iv@iv.com", "Ii12");
+        app.getHelperUser().fillLoginForm(user);
         app.getHelperUser().submitLogin();
 
         Assert.assertEquals(app.getHelperUser().getMessage(), "\"Login or Password incorrect\"");
@@ -80,8 +86,9 @@ public class LoginTests extends TestBase {
 
     @Test
     public void loginUnregisteredUser() {
+        User user= new User().setEmail("kate@za.com").setPassword("@@!!123Ka");
         app.getHelperUser().openLoginForm();
-        app.getHelperUser().fillLoginForm("kate@za.com", "@@!!123Ka");
+        app.getHelperUser().fillLoginForm(user);
         app.getHelperUser().submitLogin();
 
         Assert.assertEquals(app.getHelperUser().getMessage(), "\"Login or Password incorrect\"");

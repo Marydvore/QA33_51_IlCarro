@@ -1,5 +1,6 @@
 package manager;
 
+import models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,6 +18,13 @@ public class HelperUser extends HelperBase {
     public void fillLoginForm(String email, String password){
         type(By.xpath("//input[@formcontrolname='email']"), email);
         type(By.xpath("//input[@formcontrolname='password']"), password);
+        //type(By.id("email"), email);
+        //type(By.id("password"), password);
+    }
+
+    public void fillLoginForm(User user){
+        type(By.xpath("//input[@formcontrolname='email']"), user.getEmail());
+        type(By.xpath("//input[@formcontrolname='password']"), user.getPassword());
         //type(By.id("email"), email);
         //type(By.id("password"), password);
     }
@@ -57,4 +65,6 @@ public class HelperUser extends HelperBase {
     public boolean isEmailWithoutAtPresentDisabled() {
         return isElementPresent(By.xpath("//*[@disabled]"));
     }
+
+
 }
