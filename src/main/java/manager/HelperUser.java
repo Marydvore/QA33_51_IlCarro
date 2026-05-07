@@ -2,6 +2,7 @@ package manager;
 
 import models.User;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -15,28 +16,30 @@ public class HelperUser extends HelperBase {
         //click(By.xpath("//a[text()=' Log In ']"));
     }
 
-    public void fillLoginForm(String email, String password){
+    public void fillLoginForm(String email, String password) {
         type(By.xpath("//input[@formcontrolname='email']"), email);
         type(By.xpath("//input[@formcontrolname='password']"), password);
         //type(By.id("email"), email);
         //type(By.id("password"), password);
     }
 
-    public void fillLoginForm(User user){
+    public void fillLoginForm(User user) {
         type(By.xpath("//input[@formcontrolname='email']"), user.getEmail());
         type(By.xpath("//input[@formcontrolname='password']"), user.getPassword());
         //type(By.id("email"), email);
         //type(By.id("password"), password);
     }
 
-    public void submitLogin(){
+    public void submit() {
         click(By.xpath("//button[text()='Y’alla!']"));
         //click(By.xpath("//button[@type='submit']"));
 
     }
 
     public void clickOKButton() {
-        click(By.xpath("//button[text()='Ok']"));
+        if (isElementPresent(By.xpath("//button[text()='Ok']"))) {
+            click(By.xpath("//button[text()='Ok']"));
+        }
 
     }
 
@@ -67,4 +70,34 @@ public class HelperUser extends HelperBase {
     }
 
 
+    public boolean isYallaButtonNoActive() {
+        boolean res = isElementPresent(By.cssSelector("button[disabled]"));  //1 variable
+
+        WebElement element = wd.findElement(By.cssSelector("button[type='submit']")); // 2 variable
+        boolean result = element.isEnabled();
+        return res && !result;
+    }
+
+    //**************************  REGISTRATION  *****************************
+
+    public void openRegistrationForm() {
+        click(By.xpath("//a[text() = ' Sign up ']"));
+    }
+
+    public void fillRegistrationForm(User user) {
+        type(By.id("name"), user.getName());
+        type(By.id("lastName"), user.getLastName());
+        type(By.id("email"), user.getEmail());
+        type(By.id("password"), user.getPassword());
+    }
+
+    public void checkPolicy() {
+        // var1
+        //click(By.id("terms-of-use")); но нет размера
+        //var2
+        //click(By.cssSelector("label[for ='terms-of-use']")); но есть ссылка
+        //var3
+        JavascriptExecutor js = (JavascriptExecutor) wd;
+        js.executeScript("document.querySelector('#terms-of-use').click()");
+    }
 }
