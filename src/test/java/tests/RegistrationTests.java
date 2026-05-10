@@ -1,6 +1,7 @@
 package tests;
 
 import models.User;
+import org.checkerframework.checker.units.qual.A;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -40,6 +41,41 @@ public class RegistrationTests extends TestBase {
         app.getHelperUser().submit();
 
         Assert.assertEquals(app.getHelperUser().getMessage(), "You are logged in success");
+    }
+
+    @Test
+    public void registrationWrongEmail() {
+        User user = new User()
+                .setName("Alex")
+                .setLastName("Art")
+                .setEmail("art000art.com")
+                .setPassword("$Art1*!23");
+
+        app.getHelperUser().openRegistrationForm();
+        app.getHelperUser().fillRegistrationForm(user);
+        app.getHelperUser().checkPolicyXY();
+        app.getHelperUser().submit();
+
+        Assert.assertEquals(app.getHelperUser().getErrorText(), "Wrong email format\n" +
+                "Wrong email format");
+        Assert.assertTrue(app.getHelperUser().isYallaButtonNoActive());
+    }
+
+    @Test
+    public void registrationWrongPassword() {
+        User user = new User()
+                .setName("Alex")
+                .setLastName("Art")
+                .setEmail("art000@art.com")
+                .setPassword("$Art1");
+
+        app.getHelperUser().openRegistrationForm();
+        app.getHelperUser().fillRegistrationForm(user);
+        app.getHelperUser().checkPolicyXY();
+        app.getHelperUser().submit();
+
+        //Assert.assertEquals(app.getHelperUser().getMessage(), "Password must contain minimum 8 symbols");
+        Assert.assertTrue(app.getHelperUser().isYallaButtonNoActive());
     }
 
     @AfterMethod
