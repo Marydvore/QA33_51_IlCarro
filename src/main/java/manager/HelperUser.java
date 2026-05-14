@@ -106,15 +106,23 @@ public class HelperUser extends HelperBase {
         js.executeScript("document.querySelector('#terms-of-use').click()");
     }
 
-    public void checkPolicyXY(){
-        WebElement label = wd.findElement(By.cssSelector("label[for ='terms-of-use']"));
-        Rectangle rectangle = label.getRect();
-        int w = rectangle.getWidth();
-        int xOffset=-w/2;
-        Actions actions = new Actions(wd);
-        actions.moveToElement(label,xOffset, 0).click().release().perform();
+    public void checkPolicyXY() {
+        if (!wd.findElement(By.id("terms-of-use")).isSelected()) {
+            WebElement label = wd.findElement(By.cssSelector("label[for ='terms-of-use']"));
+            Rectangle rectangle = label.getRect();
+            int w = rectangle.getWidth();
+            int xOffset = -w / 2;
+            Actions actions = new Actions(wd);
+            actions.moveToElement(label, xOffset, 0).click().release().perform();
 
-        //Dimension size = wd.manage().window().getSize(); параметры экрана
+            //Dimension size = wd.manage().window().getSize(); параметры экрана
+        }
+    }
 
+    public void login(User user) {
+        openLoginForm();
+        fillLoginForm(user);
+        submit();
+        clickOKButton();
     }
 }
